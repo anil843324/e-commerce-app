@@ -1,14 +1,37 @@
-import React from 'react'
-
+import React, { useEffect, useState } from 'react'
+import { HiOutlineSearch } from "react-icons/hi"
+ import { useDispatch } from "react-redux"
+ 
 const Home = () => {
+
+   const dispatch=useDispatch()
+  const [data, setData] = useState({})
+
+
+    
+
+
+  useEffect(() => {
+
+    fetch(`https://geektrust.s3.ap-southeast-1.amazonaws.com/coding-problems/shopping-cart/catalogue.json`)
+      .then((res) => res.json())
+      .then((products) => setData(products))
+
+  }, [])
+
+
+ console.log(data);
+  
+
+
   return (
-    <div className="w-full min-h-screen bg-slate-200 ">
+    <div className="w-full min-h-screen  ">
       <div className="max-w-[1380px] mx-auto px-2 flex justify-between items-center h-full">
 
         <div className='container mt-1 flex  gap-20'>
 
 
-          <div className='filterDiv bg-red-200 w-[30%] h-[70vh] mt-20  '>
+          <div className='filterDiv bg-gray-300 w-[20%] h-[70vh] mt-20  drop-shadow-md rounded-md overflow-auto '>
 
             <div className=' flex flex-col ml-7  mt-5 text-xl gap-1 '>
 
@@ -40,7 +63,7 @@ const Home = () => {
                     <input type="checkbox" className=' w-4 cursor-pointer ' />
                     <label for="vehicle2"> Women</label>
                   </div>
-                  
+
                 </div>
               </div>
               <div >
@@ -82,7 +105,48 @@ const Home = () => {
 
           {/*  product list */}
 
-          <div className='productDiv  bg-black  w-[70%] h-[80vh]'>
+          <div className='productDiv   w-[80%] h-[80vh]  '>
+
+            {/*  seaarch div */}
+            <div className='mt-6 '>
+
+              <div className=' flex items-center justify-center '>
+
+
+                <input type="text" name="" placeholder='Search for Products' className='outline-none p-2 w-80 border-b-2 border-gray-400 ' />
+                <span className=' bg-slate-400 text-white px-4 py-3  rounded-md cursor-pointer'>
+                  <HiOutlineSearch size={20} />
+                </span>
+              </div>
+
+            </div>
+
+            {/*  product listing div */}
+
+            <div className='mt-5  grid  sm:grid-cols-2 lg:grid-cols-4 gap-y-6   '>
+
+              {
+
+                data.length>0 && data.map((ele)=>(
+                  <div className='  pt-3  px-4 h-[245px] w-[220px]   border border-indigo-600 ' >
+                <div >
+                  <img src={ele.imageURL} alt="product img" className=' w-[180px] h-[180px]' />
+                </div>
+
+                <div className=' flex  justify-between items-center mt-2 mb-2 '>
+                  <span className='ml-5'>Rs {ele.price} </span>
+                  <span className='bg-slate-600 text-white p-1  rounded-md  cursor-pointer '> Add to cart </span>
+                </div>
+              </div>
+                ))
+              }
+            
+
+            </div>
+
+
+
+
 
           </div>
         </div>

@@ -17,7 +17,7 @@ const Navbar = () => {
         </div>
         <div className=" ">
           <ul className="flex text-white items-center">
-            <li className="hidden md:flex" >Products</li>
+            <li className="hidden md:flex text-xl" >Products</li>
             <li className="flex flex-col items-center  ">
               <span className="-mb-3">1</span>
               <BiCart size={35} />
