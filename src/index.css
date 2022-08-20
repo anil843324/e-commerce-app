@@ -16,12 +16,12 @@
     }
 
     li{
-        @apply p-4 
+        @apply pl-6 
     }
 
-    button{
+    /* button{
          @apply bg-gradient-to-r from-[#6a00ff] to-[#00d8ff] py-1 px-4 rounded-3xl
-    }
+    } */
 
 
 } 

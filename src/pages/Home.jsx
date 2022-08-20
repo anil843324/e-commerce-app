@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { HiOutlineSearch } from "react-icons/hi"
  import { useDispatch } from "react-redux"
+
+ import {addToCart} from "../Redux/action/action"
  
 const Home = () => {
 
@@ -8,8 +10,7 @@ const Home = () => {
   const [data, setData] = useState({})
 
 
-    
-
+  
 
   useEffect(() => {
 
@@ -135,7 +136,7 @@ const Home = () => {
 
                 <div className=' flex  justify-between items-center mt-2 mb-2 '>
                   <span className='ml-5'>Rs {ele.price} </span>
-                  <span className='bg-slate-600 text-white p-1  rounded-md  cursor-pointer '> Add to cart </span>
+                  <span className='bg-slate-600 text-white p-1  rounded-md  cursor-pointer '  onClick={ ()=> {dispatch(addToCart(ele))} }     > Add to cart </span>
                 </div>
               </div>
                 ))

@@ -9,7 +9,7 @@ export const cartData = (data = [], action) => {
         alert("already added")
         return [...data];
       }
-      return [action.data, ...data];
+      return [action.product, ...data];
     case REMOVE_FROM_CART:
       // Remove product from  cart
       
@@ -18,13 +18,24 @@ export const cartData = (data = [], action) => {
 
     case INCREMENT_QUANTITY:
       // increment quantity to product in cart
+      let filterI = data.map((ele) => {
+        if (ele.id === action.p_I_Id) {
+          return { ...ele, quantity: ele.quantity <10 ? ele.quantity+1 : ele.quantity   };
+        }
+        return ele;
+      });
 
-      return data;
+      return [...filterI];
     case DECREMENT_QUANTITY:
       // decrement quantity to product in cart
+      let filterD = data.map((ele) => {
+        if (ele.id === action.p_D_Id) {
+          return { ...ele, quantity: ele.quantity >1 ? ele.quantity-1 : ele.quantity   };
+        }
+        return ele;
+      });
 
-      return data;
-
+      return [...filterD];
     default:
       // no case matched
       return data;
