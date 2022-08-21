@@ -17,6 +17,12 @@ const Home = () => {
     maxP: 0,
     minP: 0
   })
+ // searching 
+  
+  let filterData= data.length > 0&& data.filter( item =>{
+    return Object.keys(item).some( key => item[key].toString().toLowerCase().includes(input.toString().toLowerCase())
+      ) 
+  } )
 
   useEffect(() => {
 
@@ -31,10 +37,7 @@ const Home = () => {
 
   //  handle serach data
 
-  const handleSearchData = () => {
 
-
-  }
 
   // handle  checkbox 
   const handleChange = (e) => {
@@ -62,13 +65,9 @@ const Home = () => {
     }
 
 
-  };
 
-  console.log(filterKey);
-
-
-
-
+   }
+  
 
   return (
     <div className="w-full min-h-screen  ">
@@ -209,7 +208,7 @@ const Home = () => {
                   onChange={(e) => { setInput(e.target.value) }}
                   className='outline-none p-2 w-80 border-b-2 border-gray-400 ' />
                 <span className=' bg-slate-400 text-white px-4 py-3  rounded-md cursor-pointer '
-                  onClick={() => handleSearchData()}
+                 
                 >
                   <HiOutlineSearch size={20} />
                 </span>
@@ -220,10 +219,13 @@ const Home = () => {
             {/*  product listing div */}
 
             <div className='mt-5  grid  sm:grid-cols-2 lg:grid-cols-4 gap-y-6   '>
-
+                       
               {
+               
+                
 
-                data.length > 0 && data.filter((obj) => {
+
+                filterData.length > 0 && filterData.filter((obj) => {
                   if (filterKey.flag === false) {
                     return obj;
                   } else if (obj.gender.includes(filterKey.name)) {
@@ -248,7 +250,7 @@ const Home = () => {
                     </div>
                   ))
               }
-
+              
 
             </div>
 
