@@ -9,20 +9,38 @@ const Home = () => {
   const dispatch = useDispatch()
   const [data, setData] = useState({})
   const [input, setInput] = useState("")
-  const [filterKey, setFilterKey] = useState({
-    name: "",
-    flag: false
-  })
+  const [filterData,setFilterData]=useState([])
+  const [filterKey, setFilterKey] = useState([])
   const [priceFilter, setPriceFilter] = useState({
     maxP: 0,
     minP: 0
   })
- // searching 
+ 
+
+
+  useEffect(() => {
+          
+       let keyS=filterKey.map((ele)=> ele.value)
+
+       console.log("keyS",keyS);
+
+        
+
+
+
+  }, [filterKey])
   
-  let filterData= data.length > 0&& data.filter( item =>{
-    return Object.keys(item).some( key => item[key].toString().toLowerCase().includes(input.toString().toLowerCase())
-      ) 
-  } )
+   // searching
+
+   useEffect(()=>{
+    let updatedData= data.length > 0&& data.filter( item =>{
+      return Object.keys(item).some( key => item[key].toString().toLowerCase().includes(input.toString().toLowerCase())
+        ) 
+    } )
+    setFilterData(updatedData)
+      
+   },[data,input])
+         
 
   useEffect(() => {
 
@@ -35,6 +53,18 @@ const Home = () => {
 
 
 
+/* if (filterKey.flag === false) {
+                    return obj;
+                  } else if (obj.gender.includes(filterKey.name)) {
+                    return obj;
+                  } else if (obj.color.includes(filterKey.name)) {
+                    return obj;
+                  } else if (obj.name.includes(filterKey.name)) {
+                    return obj;
+                  } else if (  (obj.price >= priceFilter.minP && obj.price <= priceFilter.maxP)   ){
+                    return obj;
+                  }  */
+
   //  handle serach data
 
 
@@ -42,27 +72,38 @@ const Home = () => {
   // handle  checkbox 
   const handleChange = (e) => {
     // Destructuring
-    const { value, checked } = e.target;
+    const { value, checked ,name } = e.target;
 
-    setFilterKey({
-      name: value,
-      flag: checked
 
-    })
-    const [min, max] = value.split("-")
+     if(checked){
+        let array1=[...filterKey,{name,value}]
+         console.log("array1", array1)
+       setFilterKey(prev=> [...prev, {name,value}])
+       
+     }else if(!checked){
+          let updatedArray=[...filterKey].filter((obj)=> obj.value!==value)
+          console.log("updated array",updatedArray)
+           setFilterKey(updatedArray)
+     }
+ 
 
-    if (max === undefined) {
-      setPriceFilter({
-        maxP: Number(min),
-        minP: 0
-      })
-    } else {
-      setPriceFilter({
-        maxP: Number(max),
-        minP: Number(min)
-      })
 
-    }
+
+    
+    // const [min, max] = value.split("-")
+
+    // if (max === undefined) {
+    //   setPriceFilter({
+    //     maxP: Number(min),
+    //     minP: 0
+    //   })
+    // } else {
+    //   setPriceFilter({
+    //     maxP: Number(max),
+    //     minP: Number(min)
+    //   })
+
+    // }
 
 
 
@@ -87,6 +128,7 @@ const Home = () => {
                       <input
 
                         type="checkbox" value="Red"
+                        name='color'
                         className=' w-4 cursor-pointer '
                         onChange={handleChange}
                       />
@@ -97,6 +139,7 @@ const Home = () => {
                     <div className='flex gap-2'>
                       <input type="checkbox"
                         value="Blue"
+                        name='color'
                         onChange={handleChange}
                         className=' w-4  cursor-pointer ' />
                       <label
@@ -106,6 +149,7 @@ const Home = () => {
                     <div className='flex gap-2'>
                       <input
                         value="Green"
+                        name='color'
                         onChange={handleChange}
                         type="checkbox" className=' w-4  cursor-pointer ' />
                       <label
@@ -120,6 +164,7 @@ const Home = () => {
                     <div className='flex gap-2'>
                       <input type="checkbox"
                         value="Men"
+                        name='gender'
                         onChange={handleChange}
                         className=' w-4  cursor-pointer ' />
                       <label
@@ -129,6 +174,7 @@ const Home = () => {
                     <div className='flex gap-2'>
                       <input type="checkbox"
                         value="Women"
+                        name='gender'
                         onChange={handleChange}
                         className=' w-4 cursor-pointer ' />
                       <label > Women</label>
@@ -142,6 +188,7 @@ const Home = () => {
                     <div className='flex gap-2'>
                       <input type="checkbox"
                         value="0-250"
+                        name='price'
                         onChange={handleChange}
                         className=' w-4  cursor-pointer' />
                       <label >0-Rs250</label>
@@ -149,6 +196,7 @@ const Home = () => {
                     <div className='flex gap-2'>
                       <input
                         value="251-450"
+                        name='price'
                         onChange={handleChange}
                         type="checkbox" className=' w-4 cursor-pointer ' />
                       <label > Rs251-450</label>
@@ -156,6 +204,7 @@ const Home = () => {
                     <div className='flex gap-2'>
                       <input
                         value="450"
+                        name='price'
                         onChange={handleChange}
                         type="checkbox" className=' w-4  cursor-pointer ' />
                       <label > Rs 450</label>
@@ -167,7 +216,7 @@ const Home = () => {
                   <div className='flex  flex-col gap-1 ml-2'>
                     <div className='flex gap-2'>
                       <input
-
+                         name='type'
                         value="Polo"
                         onChange={handleChange}
                         type="checkbox" className=' w-4 cursor-pointer ' />
@@ -176,12 +225,14 @@ const Home = () => {
                     <div className='flex gap-2'>
                       <input type="checkbox"
                         value="Hoodie"
+                        name='type'
                         onChange={handleChange}
                         className=' w-4 cursor-pointer ' />
                       <label > Hoodie</label>
                     </div>
                     <div className='flex gap-2'>
                       <input type="checkbox"
+                        name='type'
                         value="Basic"
                         onChange={handleChange}
                         className=' w-4  cursor-pointer ' />
@@ -222,21 +273,12 @@ const Home = () => {
                        
               {
                
-                
-
-
+              
                 filterData.length > 0 && filterData.filter((obj) => {
-                  if (filterKey.flag === false) {
-                    return obj;
-                  } else if (obj.gender.includes(filterKey.name)) {
-                    return obj;
-                  } else if (obj.color.includes(filterKey.name)) {
-                    return obj;
-                  } else if (obj.name.includes(filterKey.name)) {
-                    return obj;
-                  } else if (  (obj.price >= priceFilter.minP && obj.price <= priceFilter.maxP)   ){
-                    return obj;
-                  } 
+                 
+                 return obj;
+
+                    
                 }).map((ele) => (
                     <div className='  pt-3  px-4 h-[245px] w-[220px]   border border-indigo-600 ' key={ele.id} >
                       <div >
